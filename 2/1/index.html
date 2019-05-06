@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CatBook</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <div v-bind:text-content.prop="message"></div>
+  <div v-bind:scroll-top.prop="scroll"></div>
+  {{ count }}
+  <button @click="countUp">countUp</button>
+
+  <hr>
+  <p>クラスbinding</p>
+  <p v-bind:class="{ child: isChild, 'is-active': isActive}">Text</p>
+  <p v-bind:style="{ color: textColor, backgroundColor: bgColor}">Text</p>
+
+  <hr>
+  <p>SVGのチェック</p>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink">
+  </svg>
+  <svg width="300px" height="150px">
+      <rect x="10" y="10" v-bind:width="radius*2" v-bind:height="radius" stroke="none" stroke-width="1" fill="lightpink" />
+    </svg>
+  <input type="range" min="0" maz="100" v-model=radius>
+
+  <hr>
+  <p>v-ifを確認</p>
+  <p v-if="condition === 'A'">AAA</p>
+  <p v-else-if="condition === 'B'">BBB</p>
+  <p v-else>Others</p>
+  <input type="text" v-model="condition" placeholder="condition given">
+
+  <hr>
+  <p>v-forの確認独自</p>
+  <ul>
+    <li v-for="(monster,index) in monsters_before">
+      {{ `${monster.name} => HP: ${monster.hp}` }}
+      <button @click="attack(monster.id)">attack</button>
+    </li>
+  </ul>
+
+  <hr>
+  <p>v-forの確認2</p>
+  <ul>
+    <li v-for="(item,index) in monsters" v-bind:key="item.id" v-bind:class="{ tuyoi: item.hp > 300 }">
+        ID.{{ item.id }} {{ item.name }} HP. {{ item.hp }}
+        <span v-if="item.hp > 300">強い</span>
+        <button v-on:click="doRemove(index)">倒す</button>
+        <button v-on:click="doChange(item,index)">メタル化</button>
+    </li>
+  </ul>
+  名前: <input v-model="name">
+  <button v-on:click="doAdd">モンスターを追加</button>
+
+  <hr>
+  <p>v-forの類型</p>
+  <p>条件文でデータ定義</p>
+  <span v-for="item in 15">{{ item }} </span><br>
+  <span v-for="item in [0,5,10,15]">{{ item }} </span>
+  <p>文字列へのv-for</p>
+  <span v-for="char in 'TIMTIMPARADICE'">{{ char }} </span>
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

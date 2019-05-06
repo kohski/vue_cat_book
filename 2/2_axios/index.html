@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CatBook</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <ul>
+    <li v-for="item in list">
+      <div class="outer">
+        <div class="row1">
+          Item: {{ item.id }}
+        </div>
+        <div class="row2">
+          Title: {{ item.title }}
+        </div>
+        <div class="row3">
+          User: {{ item.userId }}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

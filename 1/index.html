@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CatBook</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>{{ message }}</p>
+  <ul>
+    <li v-for="item in women">
+      {{ item }}
+    </li>
+  </ul>
+  <button @click="handleClick">clickHandler</button>
+  <br>
+  <input type="text" v-model.number="message2">
+  {{ message2 }}
+  <br>
+  <p v-if="isShow">yes!</p>
+
+
+  <button @click="toggleShow = !toggleShow">Toggle Show</button>
+  <transition>
+    <p v-if="toggleShow">toggle</p>
+  </transition>
+
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>
