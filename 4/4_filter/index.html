@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <input type="text" v-model.number="price">
+  {{ price | localeNum }}
+  <p v-bind:text-content.prop="price | localeNum"></p>
+  <hr>
+  <p>引数付きフィルター</p>
+  <input type="text" v-model="num">
+  <p>切上{{ num | dividedNum(3,'up') }}</p>
+  <p>切下{{ num | dividedNum(3,'down') }}</p>
+  <p>そのまま{{ num | dividedNum(3,'raw') }}</p>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>
