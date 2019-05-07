@@ -361,6 +361,44 @@ created: function(){
 - 多分リクエストの遅延になるだけで間引きにはならない。
 大人しくlodashのdebounceした方がいいと思う
 
+### filtersの定義
+```js
+const app = new Vue({
+  el: '#app',
+  data:{
+    price: 0
+  },
+  filters:{
+    localeNum: function(val){
+      return val.toLocaleString()
+    }
+  }
+})
+```
+HTML側での呼び出しは2種類
+```html
+<div id="app">
+  <input type="text" v-model.number="price">
+  {{ price | localeNum }}
+  <p v-bind:text-content.prop="price | localeNum"></p>
+</div>
+```
+### custom directiveについて
+Vueオブジェクト内で、derectivesプロパティを設定して作成する
+いろいろフックが使えるけどこの辺はおって。
+```js
+directives:{
+  focus: {
+    inserted: function(el){
+      el.focus()
+    }
+  },
+  video(el,binding){
+    binding.value? el.play() : el.pause();
+  }
+}
+```
+
 
 
 ---

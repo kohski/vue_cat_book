@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <input type="text">
+  <input type="text">
+  <input type="text">
+  <input type="text" v-focus>
+  <input type="text">
+
+  <hr>
+  <p>動画の再生と停止</p>
+  <button @click="video1=true">再生</button>
+  <button @click="video1=false">停止</button>
+  <video src="./Kboard.mp4" v-video="video1" style="width:300px; height:200px;"></video>
+
+  <button @click="video2=true">再生</button>
+  <button @click="video2=false">停止</button>
+  <video src="./Running-Sushi.mp4" v-video="video2" style="width:300px; height:200px;"></video>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>
