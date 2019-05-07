@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>算出プロパティはthisでアクセス可能</p>
+  <p>インスタンスにObject.definePropertyで定義されているから</p>
+  <p>x: {{ halfPoint.x }}</p>
+  <p>y: {{ halfPoint.y }}</p>
+  <p>point: {{ halfPoint }}</p>
+
+  <hr>
+  <p>ゲッターとセッター</p>
+  <p>ES5までのクラスの書き方でgetterとsetterの記載方法あったのでそれを使うイメージ</p>
+  <input type="text" v-model.number="width2">{{ width2 }}
+  <input type="text" v-model.number="halfWidth2">{{ halfWidth2 }}
+
+  <hr>
+  <p>キャッシュされるかどうか</p>
+  <span>computed = 算出プロパティ</span>
+  <ol>
+    <li>{{ computedData }}</li>
+    <li>{{ computedData }}</li>
+    <li>{{ computedData }}</li>
+  </ol>
+  <span>methods = メソッヅ</span>
+  <ol>
+    <li>{{ methodsData() }}</li>
+    <li>{{ methodsData() }}</li>
+    <li>{{ methodsData() }}</li>
+  </ol>
+  
+  <hr>
+  <p>budgetの変更を補足してmatedが呼ばれる</p>
+  <p>limitの変更を補足してlimitedが呼ばれる</p>
+  <p>limitの変更を検知してもbudgetはキャッシュされているので効率がいい</p>
+  <p>sortは元の配列を変えないようにシャローコピーをとる arr.slice(0).sort()</p>
+  <input type="text" v-model.number="budget">円以下
+  <input type="text" v-model.number="limit">件表示
+  <button @click="order = !order">並び替え</button>
+  <p>{{ matched.length }}件中 {{ limited.length }}表示</p>
+  <ul>
+    <li v-for="item in limited" v-bind:key="item.id">
+      {{ item.name }} {{ item.price }}円
+    </li>
+  </ul>
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

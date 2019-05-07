@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <input type="text" v-model.lazy="message">
+  <button>i</button>
+  <p>new: {{ newVal }}</p>
+  <p>old: {{ oldVal }}</p>
+  {{ message }}
+
+
+  <hr>
+  <p>setTimeoutで間引いてみる</p>
+  <input type="text" v-model="message2">
+  <button>i</button>
+  <p>new: {{ newVal2 }}</p>
+  <p>old: {{ oldVal2 }}</p>
+  {{ message }}
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

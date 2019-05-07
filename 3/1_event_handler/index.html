@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  {{ count }}
+  <button @click="handleClick($event)">push</button>
+  <img src="https://placehold.jp/400x400.png" alt="dummy" v-on:load="show=true" v-bind:class="{hide: !show}">
+  <div v-on:scroll="handler">
+    コンテンツ
+  </div>
+  <div v-on:mounsewheel="handler">
+    コンテンツ
+  </div>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

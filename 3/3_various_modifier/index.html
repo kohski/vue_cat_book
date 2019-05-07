@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <hr>
+  <p>.reight / .prevent </p>
+  <div v-on:click.right.prevent="handler">example</div>
+
+  <hr>
+  <p>.stop / .capture / .self </p>
+  <div @click.capture="outer">
+    outer
+    <div @click.stop="inner">inner
+      <div @click="innerinner">
+        inner inner
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

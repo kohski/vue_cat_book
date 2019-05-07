@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <!-- v-modelだとこう -->
+  <input type="text" v-model="message">
+  <p>{{ message }}</p>
+  <!-- v-bind / keyupだとこう！ -->
+  <input type="text" v-bind:value="message2" @keyup="doChange">
+  <p>{{ message2 }}</p>
+  <input type="text" id="analog_ip">
+  <p id="analog_op"></p>
+  
+  <hr>
+  <!-- textareaはこんな感じ -->
+  <!-- <textarea>{{ message }}</textarea> -->
+  <p>textareaはMustache無効なのでv-bindかv-modelで</p>
+  <textarea v-model:value="message"></textarea>
+  <hr>
+  <p>単独のcheckbox => booleanで受ける</p>
+  <label>
+    <input type="checkbox" v-model="val">{{val}}
+  </label>
+
+  <hr>
+  <p>複数のcheckbox => 配列で受ける</p>
+  <label><input type="checkbox" v-model="vals" value="A">A</label>
+  <label><input type="checkbox" v-model="vals" value="B">B</label>
+  <label><input type="checkbox" v-model="vals" value="C">C</label>
+
+  <hr>
+  <p>radioボタン => 文字列でうける</p>
+  <label><input type="radio" v-model="val2" value="A">A</label>
+  <label><input type="radio" v-model="val2" value="B">B</label>
+  <label><input type="radio" v-model="val2" value="C">C</label>
+  
+  <hr>
+  <p>単一選択セレクトボックス => 文字列で受ける</p>
+  <select v-model="val3">
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+  </select>
+
+  <hr>
+  <p>複数選択セレクトボックス => 文字列で受ける</p>
+  <select v-model="vals2" multiple>
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+  </select>
+
+  <hr>
+  <p>画像についてはこう</p>
+  <dl>
+    <dt>HTML</dt>
+    <dd>input[type="file"]を選択/ v-on:changeで引っ掛ける</dd>
+    <dt>preview</dt>
+    <dd>普通にimgタグにsrcを与えてあげるだけ</dd>
+    <dt>JS</dt>
+    <dd>
+      event.target.files[0]でオブジェクト取得。
+      file.typeで画像か判別。
+      window.URLオブジェクトより、createObjectURLでURLを生成してdataにいれとく
+    </dd>
+
+  </dl>
+  <input type="file" v-on:change="handleEvent">
+  <div v-if="preview"><img v-bind:src="preview"></div>
+
+  <hr>
+  rangeやcolorといったHTML5の要素も使える！
+  <input type="range" v-model.number="val4">
+  <p>{{ val4 }}</p>
+  <input type="color" v-model="color">
+  <p>{{ color }}</p>
+  <pre>{{ $data }}</pre>
+</div>
+
+<script src="./main.js"></script>
+</body>
+</html>
