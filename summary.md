@@ -398,11 +398,338 @@ directives:{
   }
 }
 ```
-
-
-
 ---
 ## chap5
+### props down!!(親子から子へ)
+親テンプレート内でvalue属性等を記述
+子コンポーネントのpropsプロパティで値を受ける
+
+** 親コンポーネント **
+```js
+Vue.component('comp-parent',{
+  template: `
+    <ul>
+      <comp-child v-for="item in list" 
+        v-bind:key = "item.id"
+        v-bind:name = "item.name"
+        v-bind:hp = "item.hp"
+      ></comp-child>    
+    </ul>
+  `,
+  data: function(){
+    return {
+      list: [
+        { id:1, name:"tim", hp:1000 },
+        { id:2, name:"tum", hp:1200 },
+        { id:3, name:"tom", hp:1300 },
+        { id:4, name:"tem" },
+      ]  
+    }
+  }
+})
+```
+そして、子コンポーネントは以下
+propsプロパティで、
+- 配列として変数名のみを受け取る
+- 連想配列として
+- 
+```js
+Vue.component('comp-child',{
+  template:`
+    <li>{{ name }} HP.{{ hp }}
+      <button @click="doAttack"></button>
+    </li>`,
+  props: {
+    name: String,
+    hp: {
+      type: Number,
+      required: true,
+      default: 900
+    }
+  },
+  methods:{
+    doAttack: function(){
+      this.hp -= 10
+    }
+  }
+})
+```
+### EventUp(子から親へ)
+** 子コンポーネント **
+this.$emitを呼び出すフックは任意に作る。
+this.$emitは
+- 第一引数 => 親コンポーネントのフック名
+- 第二引数以降 => それでフックされたイベントに渡す引数
+```js
+Vue.component('comp-child',{
+  template:`
+    <li>id:{{ id }} / {{name}} / hp: {{hp}}
+      <button @click="handleClick">attack</button>
+    </li>
+  `,
+  props: {
+    //省略
+  },
+  methods:{
+    handleClick: function(){
+      this.$emit('child-events',this.id)
+    }
+  }
+}
+```
+** 親コンポーネント **
+```js
+Vue.component('comp-parent',{
+  template:`
+  <ul>
+    <comp-child
+      // ...省略...
+      @child-events= "doAttack"
+    ></comp-child>
+  </ul>
+  `,
+  data:function(){
+    // ...省略
+  },
+  methods: {
+    // ここの引数は$emitの第二引数
+    doAttack: function(id){
+      let item = this.list.find(elm =>{
+        return elm.id === id
+      })
+      if( item !== undefined && item.hp > 0){
+        item.hp -= 10
+      }
+    }
+  }
+}) 
+```
+### event bus(子から子へ)
+まずは中継役Vueインスタンスを生成
+**中継する側**
+```js
+const bus = new Vue()
+```
+
+送り出す側はbusに登録されている（あとでmountedフックで登録する）メソッドを$emitする
+第二引数以降でemitされたメソッドへの引数を渡せる。
+**送り出す側**
+```js
+const MyComp1 = {
+  template:`
+    <div>
+      <input type="text" v-model="message">
+      <button @click="handler">送信</button>
+    </div>
+  `,
+  data: function(){
+    return {
+      message: ''
+    }
+  },
+  methods:{
+    handler: function(){
+      bus.$emit('bus-event',this.message)
+    }
+  }
+}
+```
+**もらう側**
+mountedのタイミングでbusに'bus-event'イベントを登録。
+$onメソッドでいける。第二引数にはそのイベントで呼ばれるメソッドを登録。
+```js
+const MyComp2 = {
+  template:`
+    <p>受け取り側:{{ message }}</p>
+  `,
+  mounted: function(){
+    bus.$on('bus-event',this.changeMethod)
+  },
+  methods:{
+    changeMethod: function(message){
+      this.message = message
+    }
+  },
+  data: function(){
+    return {
+      message: 'motomoto'
+    }
+  }
+}
+```
+### slot
+**親側**
+親側で子コンポーネントを指定
+その内側に書いてある内容が反映される
+```js
+Vue.component('comp-parent',{
+  template:`
+  <comp-child>slotに反映する内容</comp-child>
+  `
+})
+
+```
+**子側供**
+子側ではslotタグにて待ち受けている。
+親側で何も指定がない場合はslotタグの内容が反映される
+```js
+Vue.component('comp-child',{
+  template:`
+    <div class="comp-child">
+      ここにslot -> <slot>親側にslot関連がない！</slot>
+    </div>
+  `,
+})
+```
+### 名前付きslot 他Tips
+**親側**
+slot属性に任意の値を設定。
+子側で<slot name="">で呼び出せる
+slot設定の親側の過分は問題なし。
+まとめたいときは<template>タグをつかう
+```js
+Vue.component('comp-parent',{
+  template:`
+  <comp-child>
+    <template slot="miyamoto">
+      <ul>
+        <li v-for="item in ['mi','ya','mo','to']">{{ item }}</li>
+      </ul>
+    </template>
+    <p slot="yoko">yoko</p>
+  </comp-child>
+  `
+})
+```
+**子側**
+```js
+Vue.component('comp-child',{
+  template:`
+    <div class="comp-child">
+      miyamoto slot -> <slot name="miyamoto"></slot>
+    </div>
+  `,
+})
+```
+
+### component間の双方向binding
+**親**
+親コンポーネントで子コンポーネントを呼び出すときに親側のデータとv-modelすると
+子コンポーネント側でprops:valueで受け取ることができる。
+```js
+Vue.component('comp-parent',{
+  template:`
+    <div>
+      <input type="date" v-model="mydate">
+      <my-calender v-model="mydate"></my-calender>
+    </div>
+  `,
+  data: function(){
+    return {
+      mydate: String
+    }
+  }
+})
+```
+**子コンポーネント**
+子コンポーネント側のprops:valueは忘れがちなので注意
+```js
+Vue.component('my-calender',{
+  template:`
+    <div class="my-calender">{{ value }}</div>
+  `,
+  props: {
+    value: {
+      type: String
+    }
+  }
+})
+```
+また、propsでvalueが使用済み、もっとふさわしい名前をつけたいなどの
+場合は、modelプロパティにて属性変更が可能
+```js
+Vue.component('my-calender',{
+  model:{
+    // ここでpropをcurrentに変更
+    // $emitするときの親側のイベントをchangeに割り当て
+    prop: 'current',
+    event: 'change'
+  },
+  template:`
+    <div class="my-calender">{{ current }}</div>
+  `,
+  props: {
+    current: {
+      type: String
+    }
+  },
+  created: function(){
+    // 省略
+    this.$emit('change',initial)
+  }
+})
+```
+### .syncプロパティを使う
+**親**
+v-modelだと単一の値しか渡せないので、v-bind:値.syncで双方向いける。
+```js
+Vue.component('comp-parent',{
+  template:`
+  <comp-child 
+    v-bind:name.sync="name"
+    v-bind:hp.sync="hp"
+  ></comp-child>
+  `,
+  data: function(){
+    return {
+      name: 'slime',
+      hp: 100
+    }
+  }
+})
+```
+**子**
+
+```js
+Vue.component('comp-child', {
+  template:`
+    <div class="my-component">
+      <p>名前.{{ name }} / HP{{ hp }}</p>
+      <p><input v-model="localName"></p>
+      <p><input size=5 v-model.number="localHp"></p>
+    </div>
+  `,
+  props: {
+    name: String,
+    hp: Number
+  },
+  computed: {
+    localName: {
+      get: function(){
+        return this.name
+      },
+      set: function(val){
+        this.$emit('update:name',val)
+      }
+    },
+    localHp: {
+      get: function(){
+        return this.hp
+      },
+      set: function(val){
+        this.$emit('update:hp',val)
+      }
+    }
+  }
+})
+```
+
+### いろいろな機能
+- functionalコンポーネント　... 軽いらしい
+- dynamcコンポーネント ... toggleできるらしい
+- 
+
+
 ---
 ## chap6
 ---
