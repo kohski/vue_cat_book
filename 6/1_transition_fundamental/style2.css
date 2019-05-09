@@ -1,0 +1,11 @@
+.demo-enter-active, .demo-leave-active{
+  transition: opacity 1s;
+}
+
+.demo-leave-active {
+  position: absolute;
+}
+
+.demo-enter, .demo-leave-to{
+  opacity: 0;
+}

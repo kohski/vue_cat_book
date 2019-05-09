@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <button @click="toggle=!toggle">toggle</button> 
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <transition>
+      <my-circle v-bind:fill="fill" v-bind:key="fill"></my-circle>
+    </transition>
+  </svg>
+</div> 
+<script src="./main.js"></script>
+</body>
+</html>

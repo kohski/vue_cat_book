@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <transition v-on:enter="enter" v-on:after-enter="afterEnter">
+    <div v-if="show">example</div>
+  </transition>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

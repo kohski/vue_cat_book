@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <button @click="listOrder">切替</button>
+  <!-- ulタグで囲む代わりに transition-group tag=ul設定してあげる -->
+  <transition-group class="list" tag="ul">
+    <li v-for="item in list" v-bind:key="item.id">{{item.name}}</li>
+  </transition-group>
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

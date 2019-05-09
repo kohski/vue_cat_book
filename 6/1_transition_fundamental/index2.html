@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+  <link rel="stylesheet" href="./style2.css">
+</head>
+<body>
+<div id="app">
+  <!-- <button @click="show = !show">toggle</button>
+  <transition name="demo" mode="in-out">
+    <div v-if="show" key="a">HEAD</div>
+    <div v-else key="b">TAIL</div>
+  </transition> -->
+
+  <button @click="count++">toggle</button>
+  <transition name="demo" mode="in-out">
+    <div v-bind:key = "count">{{ count }}</div>
+  </transition>
+</div>  
+<script src="./main2.js"></script>
+</body>
+</html>

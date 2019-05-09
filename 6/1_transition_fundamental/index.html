@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <button @click="show=!show">toggle</button>
+  <!-- v-enter-active v-leave-activeクラスで管理可能に -->
+  <!-- <transition>
+    <div v-show="show">トランジション</div>
+  </transition> -->
+
+  <!-- name属性に値をセットすることでv-プレフィックスを独自のものに変更可能 -->
+  <!-- <transition name="demo">
+    <div v-if="show">transition by name</div>
+  </transition> -->
+
+  <!-- 2音節以上の単語もoK-->
+  <!-- <transition name="v-demo" >
+    <div v-if="show">transition by name</div>
+  </transition> -->
+
+  <!-- apperarオブションで初回描画時もtransition-->
+  <!-- <transition appear>
+    <div v-if="show">transition by name</div>
+  </transition> -->
+
+  <!-- transition　入出別々 -->
+  <!-- transitionで囲んで、かつ、v-showかv-ifディレクティブを設定する必要がありそう -->
+  <!-- <transition name="test">
+    <div v-show="show">transition test</div>
+  </transition> -->
+
+  <transition name="group">
+    <div v-if="show" key="a">TRUE</div>
+    <div v-else key="b">FALSE</div>
+  </transition>
+
+
+
+</div>
+<script src="./main.js"></script>
+</body>
+</html>

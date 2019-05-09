@@ -1,0 +1,62 @@
+/* 
+  要素挿入 ~ transition開始前: v-enter
+  transition開始 ~ transition終了: v-enter-to
+  要素挿入 ~ transition終了: v-enter-active <= あんまり使わない
+*/
+.v-enter-active, .v-leave-active{
+  transition: opacity 4s;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+}
+
+.demo-enter-active, .demo-leave-active{
+  transition: opacity 2s;
+}
+.demo-enter, .demo-leave-to {
+  opacity: 0;
+}
+
+.v-demo-enter-active, .v-demo-leave-active{
+  transition: opacity 2s;
+}
+.v-demo-enter, .v-demo-leave-to {
+  opacity: 0;
+}
+
+/* 別々transition */
+.test-enter-active, .test-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+
+.test-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.test-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* 重なるようにやるやつ！ */
+.group-leave-active{
+  transition: opacity 1s, transform 1s;
+  position: absolute;
+}
+
+.group-enter-active {
+  transition: opacity 1s, transform 1s;
+}
+
+.group-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.group-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+
