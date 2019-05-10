@@ -727,14 +727,67 @@ Vue.component('comp-child', {
 ### いろいろな機能
 - functionalコンポーネント　... 軽いらしい
 - dynamcコンポーネント ... toggleできるらしい
-- 
 
 
 ---
 ## chap6
+- transitionタグで囲った要素（まとめたけりゃtemplate要素で）
+  に要素の描画 ~ transition終了までクラスを追加する・
+- あとはそのclassにtransitionっぽいcssを描画していくイメージ
+- 要素投入 => .v-enter系
+  - .v-enter 要素描画 ~ transition開始まで
+  - .v-enter-to transition開始 ~ transition終了まで
+  - .v-enter-active 要素描画 ~ transition終了まで
+- 要路削除 => .v-leave系
+- <transition  name="demo">
+  => .demo-enter-toとかって感じでv-prefixを修正できる
+- 雛形
+```css
+/* 以下のようにまずduration設定 */
+.v-enter-active, .v-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+/* transition後の状態を書くと間はvueが埋めてくれる */
+.v-enter {
+  opacity 0
+}
+```
+
 ---
 ## chap7
+stand-alone Vueで全然いいんだけど、
+- ES6対応問題とか
+- lint関連
+- トランスパイル
+- webpackによる依存管理
+などがあるので実際はvue-cliで関連のツールを
+一括管理するのが普通
+
+- ツール類をどう扱うかのtemplateとアプリ名を設定
+  各種問いに答えていく
+```shell
+ vue init webpack my-app
+```
+
+- ちゃんとvue-cliで環境設すると
+  hot reloadやprojectのbuildなどいい感じにやってくれる。
+- ここ重要なんだけど、APIのクロスドメイン対策でProxyの設定についてちょっと載ってるから確認する。
+
 ---
 ## chap8
+1. Vuexのインストール
+```js
+nom install vuex babel-polyfill
+```
+2. src/store.jsを作成して関連ツールのimport
+babelが一番最初！
+```js
+import 'babel-polyfill'
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.user(Vuex)
+```
+
+
 ---
 ## chap9
